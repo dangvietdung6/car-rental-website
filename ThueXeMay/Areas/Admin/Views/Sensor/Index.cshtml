@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Dữ liệu cảm biến";
+    var sensorDataList = ViewBag.SensorData as List<ThueXeMay.Models.SensorData>
+    ;
+    var statusMessage = ViewBag.StatusMessage as string;
+    }
+
+    <h2 class="sensor-title">Dữ liệu cảm biến (5 lần gần nhất)</h2>
+
+    @if (!string.IsNullOrEmpty(statusMessage))
+    {
+    <div class="status-message">
+        <strong>Thông báo:</strong> @statusMessage
+    </div>
+    }
+
+    <table class="table table-bordered sensor-table">
+        <thead>
+            <tr>
+                <th>Thời gian</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (sensorDataList != null && sensorDataList.Any())
+            {
+            foreach (var sensor in sensorDataList)
+            {
+            <tr>
+                <td>@sensor.Timestamp</td>
+                <td>@sensor.X</td>
+                <td>@sensor.Y</td>
+                <td>@sensor.Z</td>
+            </tr>
+            }
+            }
+            else
+            {
+            <tr>
+                <td colspan="4" class="no-data">Không có dữ liệu</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <style>
+        .sensor-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .status-message {
+            margin: 10px auto;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            color: #fff;
+            background-color: #f39c12; /* Màu cam cho thông báo */
+            border-radius: 5px;
+        }
+
+        .sensor-table {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+            font-size: 30px;
+        }
+
+        tr {
+            display: table-row;
+            vertical-align: inherit;
+            unicode-bidi: isolate;
+            border-color: inherit;
+            font-size: 30px;
+        }
+
+        .sensor-table th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .sensor-table td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
