@@ -82,7 +82,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
             var deltaZ = Math.Abs(last.Z - previous.Z);
 
             // Định nghĩa ngưỡng
-            const double stableThreshold = 5.0;
+            const double stableThreshold = 5.0;//dưới mức này là nghiêng ở giữa là ổn định
             const double slightTiltThreshold = 10.0;
 
             // Phân loại trạng thái
