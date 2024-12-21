@@ -24,7 +24,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
                     // Lưu dữ liệu vào cơ sở dữ liệu
                     SensorData sensorData = new SensorData
                     {
-                        Timestamp = DateTime.UtcNow,
+                        Timestamp = DateTime.UtcNow, // Lưu thời gian UTC
                         X = firebaseData.X,
                         Y = firebaseData.Y,
                         Z = firebaseData.Z
@@ -42,8 +42,22 @@ namespace ThueXeMay.Areas.Admin.Controllers
                         db.SaveChanges();
                     }
 
-                    // Lấy 5 dữ liệu mới nhất để hiển thị
-                    var recentData = db.SensorDatas.OrderByDescending(s => s.Timestamp).Take(5).ToList();
+                    // Lấy 5 dữ liệu mới nhất để hiển thị và chuyển đổi múi giờ
+                    var recentData = db.SensorDatas
+                        .OrderByDescending(s => s.Timestamp)
+                        .Take(5)
+                        .ToList()
+                        .Select(s => new SensorData
+                        {
+                            Timestamp = s.Timestamp.HasValue
+                                ? TimeZoneInfo.ConvertTimeFromUtc(s.Timestamp.Value, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"))
+                                : (DateTime?)null, // Chuyển đổi múi giờ Việt Nam
+                            X = s.X,
+                            Y = s.Y,
+                            Z = s.Z
+                        })
+                        .ToList();
+
                     ViewBag.SensorData = recentData;
 
                     // Phân tích dữ liệu và thêm thông báo
@@ -53,7 +67,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
                 else
                 {
                     ViewBag.SensorData = null;
-                    ViewBag.StatusMessage = "Không có dữ liệu cảm biến từ Firebase.";
+                    ViewBag.StatusMessage = "Không có thông tin dữ liệu cảm biến.";
                 }
             }
             catch (Exception ex)
@@ -82,7 +96,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
             var deltaZ = Math.Abs(last.Z - previous.Z);
 
             // Định nghĩa ngưỡng
-            const double stableThreshold = 5.0;//dưới mức này là nghiêng ở giữa là ổn định
+            const double stableThreshold = 5.0; // Dưới mức này là nghiêng ở giữa là ổn định
             const double slightTiltThreshold = 10.0;
 
             // Phân loại trạng thái
@@ -101,6 +115,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
         }
     }
 }
+
 
 
 
