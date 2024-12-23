@@ -35,7 +35,7 @@ namespace ThueXeMay.Controllers
         {
             return View("DK_DV");
         }
-        public ActionResult faqs()
+        public ActionResult faqs()//tra ve ket qua cau hoi
         {
             return View("FAQs");
         }
