@@ -27,7 +27,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
             }
             else if (string.IsNullOrEmpty(mk))
             {
-                ViewData["loi2"] = "Nhập mật khẩu !!!";
+                ViewData["loi2"] = "Vui lòng nhập mật khẩu !!!";
             }
             else
             {
