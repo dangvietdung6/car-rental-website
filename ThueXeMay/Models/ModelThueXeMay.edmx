@@ -76,6 +76,15 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" />
           <Property Name="fulControl" Type="bit" />
         </EntityType>
+        <EntityType Name="GpsData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
         <EntityType Name="mail">
           <Key>
             <PropertyRef Name="ContactId" />
@@ -258,6 +267,7 @@
           <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contact" EntityType="Self.contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GpsData" EntityType="Self.GpsData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mail" EntityType="Self.mail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rate" EntityType="Self.rate" Schema="dbo" store:Type="Tables" />
@@ -571,6 +581,7 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="SensorDatas" EntityType="RENT_MOTORModel.SensorData" />
+          <EntitySet Name="GpsDatas" EntityType="RENT_MOTORModel.GpsData" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -592,6 +603,15 @@
           <Property Name="X" Type="Double" Nullable="false" />
           <Property Name="Y" Type="Double" Nullable="false" />
           <Property Name="Z" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GpsData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -788,6 +808,16 @@
                 <ScalarProperty Name="Y" ColumnName="Y" />
                 <ScalarProperty Name="X" ColumnName="X" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GpsDatas">
+            <EntityTypeMapping TypeName="RENT_MOTORModel.GpsData">
+              <MappingFragment StoreEntitySet="GpsData">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

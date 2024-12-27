@@ -108,12 +108,23 @@
                     <span>Đơn thuê</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index", "Sensor")">
                     <i class="fas fa-database"></i>
                     <span>Dữ liệu cảm biến</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "GpsTracking", new { area = "Admin" })">
+                    <i class="fas fa-map-marker-alt"></i> <!-- Icon định vị -->
+                    <span>Định vị GPS</span>
+                </a>
+            </li>
+
+
+
 
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("ContactAdmin","Home")">

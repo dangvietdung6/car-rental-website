@@ -1,0 +1,114 @@
+﻿@model List<ThueXeMay.Models.GpsData>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dữ liệu GPS</title>
+    <!-- Thêm CSS và JS cho Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Thêm CSS và JS cho Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js"></script>
+
+    <style>
+        /* CSS tùy chỉnh */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+            table th, table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            table th {
+                background-color: #343a40;
+                color: white;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            table tr:hover {
+                background-color: #ddd;
+            }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        #map {
+            height: 500px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Tiêu đề -->
+        <h2>Dữ liệu GPS</h2>
+
+        <!-- Bảng hiển thị dữ liệu GPS -->
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Vĩ độ</th>
+                    <th>Kinh độ</th>
+                    <th>Thời gian</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var gps in Model)
+                {
+                    <tr>
+                        <td>@gps.Id</td>
+                        <td>@gps.Latitude</td>
+                        <td>@gps.Longitude</td>
+                        <td>@gps.Timestamp</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phần bản đồ -->
+        <h2>Bản đồ</h2>
+        <div id="map"></div>
+    </div>
+
+    <!-- JavaScript khởi tạo bản đồ -->
+    <script>
+        // Khởi tạo bản đồ với tọa độ mặc định
+        var map = L.map('map').setView([16.0389, 108.2214], 15);
+
+        // Thêm lớp tile từ OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Lấy dữ liệu GPS từ server (Model)
+        var gpsData = @Html.Raw(Json.Encode(Model)); // Chuyển dữ liệu từ server sang JSON
+
+        // Thêm các marker vào bản đồ
+        gpsData.forEach(function (gps) {
+            L.marker([gps.Latitude, gps.Longitude]) // Vị trí marker
+                .addTo(map)
+                .bindPopup(
+                    "<b>Vĩ độ:</b> " + gps.Latitude +
+                    "<br><b>Kinh độ:</b> " + gps.Longitude +
+                    "<br><b>Thời gian:</b> " + gps.Timestamp
+                );
+        });
+    </script>
+</body>
+</html>

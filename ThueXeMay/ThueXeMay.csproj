@@ -57,6 +57,9 @@
     <Reference Include="Firebase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebaseDatabase.net.4.2.0\lib\netstandard2.0\Firebase.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Firebase.Database.1.0.0\lib\portable45-net45+win8+wpa81\Firebase.Database.dll</HintPath>
+    </Reference>
     <Reference Include="FireSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FireSharp.2.0.4\lib\portable-net45+sl5+wp8+win8\FireSharp.dll</HintPath>
     </Reference>
@@ -100,6 +103,18 @@
     </Reference>
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.0.0\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -180,6 +195,7 @@
     <Compile Include="Areas\Admin\Controllers\bikesController.cs" />
     <Compile Include="Areas\Admin\Controllers\blogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\employeesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GpsTrackingController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\menusController.cs" />
     <Compile Include="Areas\Admin\Controllers\rentsController.cs" />
@@ -213,6 +229,9 @@
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\employee.cs">
+      <DependentUpon>ModelThueXeMay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GpsData.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\mail.cs">
@@ -2398,6 +2417,7 @@
       <DependentUpon>ModelThueXeMay.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\rents\Bill.cshtml" />
+    <Content Include="Areas\Admin\Views\GpsTracking\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

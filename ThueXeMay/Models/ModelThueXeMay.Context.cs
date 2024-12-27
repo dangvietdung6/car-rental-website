@@ -17,8 +17,6 @@ namespace ThueXeMay.Models
     
     public partial class RENT_MOTOREntities : DbContext
     {
-        internal object SensorData;
-
         public RENT_MOTOREntities()
             : base("name=RENT_MOTOREntities")
         {
@@ -43,6 +41,7 @@ namespace ThueXeMay.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<type> types { get; set; }
         public virtual DbSet<SensorData> SensorDatas { get; set; }
+        public virtual DbSet<GpsData> GpsDatas { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
