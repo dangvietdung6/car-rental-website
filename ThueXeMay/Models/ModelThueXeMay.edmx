@@ -55,6 +55,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" />
           <Property Name="content" Type="nvarchar" MaxLength="500" />
           <Property Name="date" Type="date" />
+          <Property Name="id_user" Type="int" />
         </EntityType>
         <EntityType Name="contact">
           <Key>
@@ -128,6 +129,7 @@
           <Property Name="phone" Type="nvarchar" MaxLength="20" />
           <Property Name="mail" Type="nvarchar" MaxLength="50" />
           <Property Name="date" Type="datetime" />
+          <Property Name="id_user" Type="int" />
         </EntityType>
         <EntityType Name="rentDetails">
           <Key>
@@ -169,6 +171,20 @@
           <Property Name="price_month" Type="int" />
           <Property Name="image" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="phoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
         <Association Name="FK_bike_type">
           <End Role="type" Type="Self.type" Multiplicity="0..1" />
           <End Role="bike" Type="Self.bike" Multiplicity="*" />
@@ -202,6 +218,30 @@
             </Principal>
             <Dependent Role="comment">
               <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rent_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="rent" Type="Self.rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="rent">
+              <PropertyRef Name="id_user" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -276,6 +316,7 @@
           <EntitySet Name="SensorData" EntityType="Self.SensorData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="type" EntityType="Self.type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_bike_type" Association="Self.FK_bike_type">
             <End Role="type" EntitySet="type" />
             <End Role="bike" EntitySet="bike" />
@@ -287,6 +328,14 @@
           <AssociationSet Name="FK_comment_blog" Association="Self.FK_comment_blog">
             <End Role="blog" EntitySet="blog" />
             <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_user" Association="Self.FK_comment_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rent_user" Association="Self.FK_rent_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="rent" EntitySet="rent" />
           </AssociationSet>
           <AssociationSet Name="FK_rentDetails_bike" Association="Self.FK_rentDetails_bike">
             <End Role="bike" EntitySet="bike" />
@@ -356,6 +405,8 @@
           <Property Name="content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="blogs" Relationship="Self.FK_comment_blog" FromRole="comment" ToRole="blog" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="RENT_MOTORModel.FK_comment_user" FromRole="comment" ToRole="user" />
         </EntityType>
         <EntityType Name="contact">
           <Key>
@@ -422,6 +473,8 @@
           <Property Name="date" Type="DateTime" Precision="3" />
           <NavigationProperty Name="bills" Relationship="Self.FK_bill_rent" FromRole="rent" ToRole="bill" />
           <NavigationProperty Name="rentDetails" Relationship="Self.FK_rentDetails_rent" FromRole="rent" ToRole="rentDetails" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="RENT_MOTORModel.FK_rent_user" FromRole="rent" ToRole="user" />
         </EntityType>
         <EntityType Name="rentDetail">
           <Key>
@@ -582,6 +635,15 @@
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="SensorDatas" EntityType="RENT_MOTORModel.SensorData" />
           <EntitySet Name="GpsDatas" EntityType="RENT_MOTORModel.GpsData" />
+          <EntitySet Name="users" EntityType="RENT_MOTORModel.user" />
+          <AssociationSet Name="FK_comment_user" Association="RENT_MOTORModel.FK_comment_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="comment" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rent_user" Association="RENT_MOTORModel.FK_rent_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="rent" EntitySet="rents" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -613,6 +675,46 @@
           <Property Name="Longitude" Type="Double" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="comments" Relationship="RENT_MOTORModel.FK_comment_user" FromRole="user" ToRole="comment" />
+          <NavigationProperty Name="rents" Relationship="RENT_MOTORModel.FK_rent_user" FromRole="user" ToRole="rent" />
+        </EntityType>
+        <Association Name="FK_comment_user">
+          <End Type="RENT_MOTORModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="RENT_MOTORModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rent_user">
+          <End Type="RENT_MOTORModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="RENT_MOTORModel.rent" Role="rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="rent">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -666,6 +768,7 @@
           <EntitySetMapping Name="comments">
             <EntityTypeMapping TypeName="RENT_MOTORModel.comment">
               <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
                 <ScalarProperty Name="id_cmt" ColumnName="id_cmt" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -735,6 +838,7 @@
           <EntitySetMapping Name="rents">
             <EntityTypeMapping TypeName="RENT_MOTORModel.rent">
               <MappingFragment StoreEntitySet="rent">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
                 <ScalarProperty Name="id_rent" ColumnName="id_rent" />
                 <ScalarProperty Name="note" ColumnName="note" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -819,6 +923,21 @@
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="RENT_MOTORModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

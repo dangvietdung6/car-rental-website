@@ -50,17 +50,29 @@ namespace ThueXeMay.Controllers
             return PartialView("Comment", items);
         }
         [HttpPost]
-        public ActionResult AddComment(int id, string name, string content)
+        public ActionResult AddComment(int id, string name, string content, int? id_user)
         {
             comment newcmt = new comment();
             newcmt.id = id;
             newcmt.name = name;
             newcmt.content = content;
             newcmt.date = DateTime.Now;
+            newcmt.id_user = id_user;
             myObj.comments.Add(newcmt);
             myObj.SaveChanges();
             return Json(new { status = true });
         }
-        
+        //public ActionResult AddComment(int id, string name, string content)
+        //{
+        //    comment newcmt = new comment();
+        //    newcmt.id = id;
+        //    newcmt.name = name;
+        //    newcmt.content = content;
+        //    newcmt.date = DateTime.Now;
+        //    myObj.comments.Add(newcmt);
+        //    myObj.SaveChanges();
+        //    return Json(new { status = true });
+        //}
+
     }
 }

@@ -82,40 +82,77 @@ namespace ThueXeMay.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Checkout(FormCollection frm)
+        public ActionResult Checkout(string inputUsername, string inputPhone, string inputEmail, string inputNote, int id)
         {
             //try
             //{
-                List<CartItem> carts = (List<CartItem>)Session["giohang"];
-                rent rent = new rent()
+            List<CartItem> carts = (List<CartItem>)Session["giohang"];
+            rent rent = new rent()
+            {
+                name = inputUsername,
+                phone = inputPhone,
+                mail = inputEmail,
+                note = inputNote,
+                id_user = id,
+                date = DateTime.Now,
+
+            };
+            myObj.rents.Add(rent);
+            myObj.SaveChanges();
+
+            foreach (CartItem item in carts)
+            {
+                rentDetail rentDetail = new rentDetail()
                 {
-                    name = frm["inputUsername"],
-                    phone = frm["inputPhone"],
-                    mail = frm["inputEmail"],
-                    note = frm["inputNote"],
-                    date = DateTime.Now,
+                    id_rent = rent.id_rent,
+                    id_bike = item.id_xe,
+                    amount = item.SoLuong,
                 };
-                myObj.rents.Add(rent);
+                myObj.rentDetails.Add(rentDetail);
                 myObj.SaveChanges();
+            }
 
-                foreach (CartItem item in carts)
-                {
-                    rentDetail rentDetail = new rentDetail()
-                    {
-                        id_rent = rent.id_rent,
-                        id_bike = item.id_xe,
-                        amount = item.SoLuong,
-                    };
-                    myObj.rentDetails.Add(rentDetail);
-                    myObj.SaveChanges();
-                }
-
-                Session.Remove("giohang");
-                return View("RentSuccess");
+            Session.Remove("giohang");
+            return View("RentSuccess");
             //} catch
             //{
             //    return View("Error");
             //}
         }
+        //public ActionResult Checkout(FormCollection frm)
+        //{
+        //    //try
+        //    //{
+        //        List<CartItem> carts = (List<CartItem>)Session["giohang"];
+        //        rent rent = new rent()
+        //        {
+        //            name = frm["inputUsername"],
+        //            phone = frm["inputPhone"],
+        //            mail = frm["inputEmail"],
+        //            note = frm["inputNote"],
+        //            date = DateTime.Now,
+        //        };
+        //        myObj.rents.Add(rent);
+        //        myObj.SaveChanges();
+
+        //        foreach (CartItem item in carts)
+        //        {
+        //            rentDetail rentDetail = new rentDetail()
+        //            {
+        //                id_rent = rent.id_rent,
+        //                id_bike = item.id_xe,
+        //                amount = item.SoLuong,
+        //            };
+        //            myObj.rentDetails.Add(rentDetail);
+        //            myObj.SaveChanges();
+        //        }
+
+        //        Session.Remove("giohang");
+        //        return View("RentSuccess");
+        //    //} catch
+        //    //{
+        //    //    return View("Error");
+        //    //}
+        //}
     }
 }

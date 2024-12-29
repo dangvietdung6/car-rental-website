@@ -201,6 +201,10 @@
     <Compile Include="Areas\Admin\Controllers\rentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SensorDataController.cs" />
     <Compile Include="Areas\Admin\Controllers\typesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="common\CommonConstants.cs" />
+    <Compile Include="common\Encryptor.cs" />
+    <Compile Include="common\UserLogin.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -208,6 +212,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -222,6 +227,7 @@
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CMT.cs" />
     <Compile Include="Models\comment.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
@@ -234,6 +240,7 @@
     <Compile Include="Models\GpsData.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\mail.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
@@ -258,6 +265,7 @@
     <Compile Include="Models\rate.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\rent.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
@@ -279,7 +287,12 @@
     <Compile Include="Models\type.cs">
       <DependentUpon>ModelThueXeMay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\user.cs">
+      <DependentUpon>ModelThueXeMay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="user\UserDao.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Admin\css\sb-admin-2.css" />
@@ -2418,6 +2431,9 @@
     </Content>
     <Content Include="Areas\Admin\Views\rents\Bill.cshtml" />
     <Content Include="Areas\Admin\Views\GpsTracking\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2454,6 +2470,13 @@
     <Content Include="Views\Shared\DK_DV.cshtml" />
     <Content Include="Views\Shared\FAQs.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Shared\aaa.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\ChangePsw.cshtml" />
+    <Content Include="Views\User\Rename.cshtml" />
+    <Content Include="Views\User\vehicle.cshtml" />
+    <Content Include="Views\User\cmt.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

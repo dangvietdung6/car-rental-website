@@ -1,0 +1,61 @@
+﻿@model ThueXeMay.Models.user
+@{
+    ViewBag.Title = "ChangePsw";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../../content/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-0 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="~/Home">Trang Chủ <i class="ion-ios-arrow-forward"></i></a></span> <span>Đổi mật khẩu<i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Đổi mật khẩu</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="card mb-4">
+    <div class="card-header" style="color: #0061f2"><b></b></div>
+    <div class="card-body">
+        @using (Html.BeginForm("ChangePsw", "User", FormMethod.Post))
+        {
+
+            <div class="card mb-4">
+                <div class="card-header" style="color: #0061f2"><b>Đổi mật khẩu</b></div>
+                <div class="card-body">
+                    <input type="number" hidden name="id" value="@Model.id_user" />
+                    <!-- Form Group (current password)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="currentPassword">Mật khẩu hiện tại</label>
+                        <input class="form-control" id="currentPassword" name="pswOld" type="password" placeholder="Nhập mật khẩu hiện tại ...">
+                    </div>
+                    <!-- Form Group (new password)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="password">Mật khẩu mới</label>
+                        <input class="form-control" id="password" required onkeyup='check();' type="password" placeholder="Nhập mật khẩu mới ...">
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="confirm_password">Xác nhận mật khẩu</label>
+                        <input class="form-control" id="confirm_password" name="pswNew" required onkeyup='check();' type="password" placeholder="Xác nhận mật khẩu mới ...">
+                    </div>
+                    <button class="btn btn-primary" id="changepsw" disabled type="submit">Xác nhận</button>
+                </div>
+            </div>
+        }
+        <script>
+            var check = function () {
+                if (document.getElementById('password').value ==
+                    document.getElementById('confirm_password').value) {
+                    document.getElementById('changepsw').disabled = false;
+
+                } else {
+                    document.getElementById('changepsw').disabled = true;
+                }
+            }
+        </script>
+
+    </div>
+</div>

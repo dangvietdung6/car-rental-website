@@ -1,0 +1,51 @@
+﻿<ul class="navbar-nav">
+    @{var session = (ThueXeMay.Common.UserLogin)Session[ThueXeMay.Common.CommonConstants.USER_SESSION];}
+
+    @if (session == null)
+    {
+        <li>
+            <a class="nav-link" href="@Url.Action("Register", "User")">Đăng ký</a>
+        </li>
+
+        <li>
+            <a class="nav-link" href="@Url.Action("Login", "User")">Đăng nhập</a>
+        </li>
+    }
+    else
+    {
+        <ul>
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@session.firstName @session.lastName</span>
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+
+                    <a class="dropdown-item" href="@Url.Action("Rename", "User", new { id = session.id_user })">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Đổi thông tin
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("ChangePsw", "User", new { id = session.id_user })">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Đổi mật khẩu
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("Vehicle", "User", new { id = session.id_user })">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Lịch sử thuê xe
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("Cmt", "User", new { id = session.id_user })">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Lịch sử bình luận
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="@Url.Action("Logout", "User")">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Đăng xuất
+                    </a>
+                </div>
+            </li>
+        </ul>
+    }
+</ul>

@@ -19,7 +19,9 @@ namespace ThueXeMay.Models
         public string name { get; set; }
         public string content { get; set; }
         public Nullable<System.DateTime> date { get; set; }
+        public Nullable<int> id_user { get; set; }
     
         public virtual blog blogs { get; set; }
+        public virtual user user { get; set; }
     }
 }

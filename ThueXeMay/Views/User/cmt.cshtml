@@ -1,0 +1,55 @@
+﻿@model List<ThueXeMay.Models.CMT>
+@{
+    ViewBag.Title = "CMT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../../content/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-0 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="~/Home">Danh sách bình luận <i class="ion-ios-arrow-forward"></i></a></span> <span>Đổi mật khẩu<i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Danh sách bình luận</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Lịch sử bình luận</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên</th>
+                            <th>Nội dung</th>
+                            <th>Thời gian</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var i = 1; }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.Date</td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

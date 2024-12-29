@@ -3,6 +3,7 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{var session = (ThueXeMay.Common.UserLogin)Session[ThueXeMay.Common.CommonConstants.USER_SESSION];}
 
 <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../Content/images/');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
@@ -37,25 +38,73 @@
                         </p>
                     </div>
                 </div>
-                <div class="pt-5 mt-5" id="binhluan">
-                    @{ Html.RenderAction("Comment", new { id = Model.id });}
-                    <div class="comment-form-wrap pt-5">
-                        <h3 class="mb-5">Bình luận</h3>
-                        <form class="p-5 bg-light">
-                            <div class="form-group">
-                                <label for="name">Tên *</label>
-                                <input type="text" class="form-control" value=""  id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message</label>
-                                <textarea name="massage" id="message" value="" cols="10" rows="10" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" id="addComment" value="Bình luận" class="btn py-3 px-4 btn-primary">Bình luận</button>
-                            </div>
-                        </form>
+                @if (session == null)
+                {
+                    <div class="pt-5 mt-5" id="binhluan">
+                        @{ Html.RenderAction("Comment", new { id = Model.id });}
+                        <div class="comment-form-wrap pt-5">
+                            <h3 class="mb-5">Bình luận</h3>
+                            <form class="p-5 bg-light">
+                                <input hidden id="id_user" name="id_user" value="null" />
+                                <div class="form-group">
+                                    <label for="name">Tên *</label>
+                                    <input type="text" class="form-control" value="" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea name="massage" id="message" value="" cols="10" rows="10" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" id="addComment" value="Bình luận" class="btn py-3 px-4 btn-primary">Bình luận</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="pt-5 mt-5" id="binhluan">
+                        @{ Html.RenderAction("Comment", new { id = Model.id });}
+                        <div class="comment-form-wrap pt-5">
+                            <h3 class="mb-5">Bình luận</h3>
+                            <form class="p-5 bg-light">
+                                <input type="number" hidden id="id_user" name="id_user" value="@session.id_user" />
+                                <div class="form-group">
+                                    <label for="name">Tên *</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="@session.firstName @session.lastName" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea name="massage" id="message" value="" cols="10" rows="10" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" id="addComment" value="Bình luận" class="btn py-3 px-4 btn-primary">Bình luận</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                }
+                @*<div class="pt-5 mt-5" id="binhluan">
+                        @{ Html.RenderAction("Comment", new { id = Model.id });}
+                        <div class="comment-form-wrap pt-5">
+                            <h3 class="mb-5">Bình luận</h3>
+                            <form class="p-5 bg-light">
+                                <div class="form-group">
+                                    <label for="name">Tên *</label>
+                                    <input type="text" class="form-control" value="" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea name="massage" id="message" value="" cols="10" rows="10" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" id="addComment" value="Bình luận" class="btn py-3 px-4 btn-primary">Bình luận</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>*@
             </div>
             <div class="col-md-4 sidebar ftco-animate">
                 <div class="sidebar-box ftco-animate">
@@ -74,31 +123,59 @@
 @section script{
     <script src="~/Content/js/jquery-ui.js"></script>
     <script src="~/Content/js/contact_custom.js"></script>
-
     <script>
-        $(document).ready(function () {
-            $("#addComment").click(function () {
-                if ($("#name").val() != "" && $("#message").val() != "") {
-                    _id = @Model.id;
-                    _name = $("#name").val();
-                    _message = $("#message").val();
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("AddComment","Blog")",
-                        data: { id: _id, name: _name, content: _message },
-                        success: function (data) {
-                            if (data.status) {
-                                window.location.reload();
-                            }
-                        }
-                    });
-                } else {
-                    alert("Vui lòng nhập thông tin!!");
+$(document).ready(function () {
+    $("#addComment").click(function () {
+        if ($("#name").val() != "" && $("#message").val() != "") {
+            _id = @Model.id;
+            _name = $("#name").val();
+            _message = $("#message").val();
+            _id_user = $("#id_user").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddComment", "Blog")",
+                data: { id: _id, name: _name, content: _message, id_user: _id_user},
+                success: function (data) {
+                    if (data.status) {
+                        window.location.reload();
+                    }
                 }
+            });
+        } else {
+            alert("Vui lòng nhập thông tin!!");
+        }
 
+
+    })
+
+})
+    </script>
+
+
+    @*<script>
+            $(document).ready(function () {
+                $("#addComment").click(function () {
+                    if ($("#name").val() != "" && $("#message").val() != "") {
+                        _id = @Model.id;
+                        _name = $("#name").val();
+                        _message = $("#message").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddComment","Blog")",
+                            data: { id: _id, name: _name, content: _message },
+                            success: function (data) {
+                                if (data.status) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    } else {
+                        alert("Vui lòng nhập thông tin!!");
+                    }
+
+
+                })
 
             })
-
-        })
-    </script>
+        </script>*@
 }
