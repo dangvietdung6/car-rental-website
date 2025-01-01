@@ -14,7 +14,7 @@ namespace ThueXeMay.Areas.Admin.Controllers
     {
         private RENT_MOTOREntities db = new RENT_MOTOREntities();
 
-        // GET: Admin/rents
+        // GET: Admin/rents 
         public ActionResult Index()
         {
             var item = db.rents.Include(i => i.bills);
